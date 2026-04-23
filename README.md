@@ -2,6 +2,8 @@
 
 macOS light/dark dynamic wallpapers, built from PNG pairs.
 
+![Preview — light on the left, dark on the right](preview.jpg)
+
 ## Layout
 
 ```
