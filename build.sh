@@ -12,6 +12,13 @@ NAME="${1:-ponor-brush}"
 LIGHT="src/$NAME/light.png"
 DARK="src/$NAME/dark.png"
 OUT="dist/$NAME.heic"
+LIGHT_OUT="dist/$NAME-light.jpg"
+DARK_OUT="dist/$NAME-dark.jpg"
+
+# Max width for the standalone JPEGs. 3840 covers 4K displays with headroom and
+# keeps the file in the low-MBs at q88 instead of the 50MB+ source PNGs.
+JPG_MAX_WIDTH=3840
+JPG_QUALITY=88
 
 mkdir -p "$(dirname "$OUT")"
 
@@ -62,3 +69,19 @@ exiftool -config "$TMP_CONFIG" -overwrite_original \
   -XMP-apple_desktop:apr="$APR_B64" "$OUT" >/dev/null
 
 echo "Wrote $OUT"
+
+# Standalone JPEGs for Linux / non-macOS use. Resize only if the source is
+# wider than JPG_MAX_WIDTH; progressive + 4:2:0 keeps file size down without
+# visible quality loss at wallpaper viewing distance.
+for pair in "$LIGHT:$LIGHT_OUT" "$DARK:$DARK_OUT"; do
+  src="${pair%%:*}"
+  dst="${pair##*:}"
+  magick "$src" \
+    -resize "${JPG_MAX_WIDTH}x>" \
+    -strip \
+    -interlace Plane \
+    -sampling-factor 4:2:0 \
+    -quality "$JPG_QUALITY" \
+    "$dst"
+  echo "Wrote $dst"
+done
