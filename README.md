@@ -1,5 +1,7 @@
 # ponor-wallpaper
 
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](LICENSE)
+
 macOS light/dark dynamic wallpapers, built from PNG pairs.
 
 ![Preview — light on the left, dark on the right](preview.jpg)
@@ -34,3 +36,8 @@ brew install imagemagick libheif exiftool
 packs both images into a single HEIC with `heif-enc`, and writes an
 `apple_desktop:apr` XMP tag (a base64-encoded plist mapping `{l: 0, d: 1}`) so
 macOS knows which frame is which.
+
+## License
+
+Wallpapers © Genadi Samokovarov, licensed under [CC BY 4.0](LICENSE). Use them
+anywhere, just credit back.
